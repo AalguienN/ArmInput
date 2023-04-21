@@ -8,7 +8,6 @@ public class ArmInput : MonoBehaviour {
 
     [Header("Inputs")]
 
-    [HeaderAttribute("fdsaf")]
     public KeyCode inputForAxis1 = KeyCode.F;
     public KeyCode inputForAxis2 = KeyCode.J;
     public KeyCode inputForAxis3 = KeyCode.D;
