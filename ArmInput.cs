@@ -1,64 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ArmInput : MonoBehaviour {
+public static class ArmInput
+{
 
-    public static ArmInput instance;
-
-    [Header("Inputs")]
-
-    public KeyCode inputForSignal1 = KeyCode.F;
-    public KeyCode inputForSignal2 = KeyCode.J;
-    public KeyCode inputForSignal3 = KeyCode.D;
-    public KeyCode inputForSignal4 = KeyCode.K;
-
+    //Inputs
+    public static KeyCode inputForSignal1 = KeyCode.F;
+    public static KeyCode inputForSignal2 = KeyCode.J;
+    public static KeyCode inputForSignal3 = KeyCode.D;
+    public static KeyCode inputForSignal4 = KeyCode.K;
 
     //Cada señal es equivalente a un eje
-    private static float Signal1;
-    private static float Signal2;
-    private static float Signal3;
-    private static float Signal4;
-
-
-    public enum Signal{
+    public enum Signal
+    {
         S1, S2, S3, S4,
         LBiceps, RBiceps, LTriceps, RTriceps
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public static float GetSignal(string SignalName)
     {
-        if (ArmInput.instance == null)
+        switch (SignalName)
         {
-            instance = this;
-        }
-        else Destroy(gameObject);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKey(inputForSignal1)) Signal1 = 1; else Signal1 = 0;
-        if (Input.GetKey(inputForSignal2)) Signal2 = 1; else Signal2 = 0;
-        if (Input.GetKey(inputForSignal3)) Signal3 = 1; else Signal3 = 0;
-        if (Input.GetKey(inputForSignal4)) Signal4 = 1; else Signal4 = 0;
-    }
-
-    public static float GetSignal(string SignalName) {
-        switch (SignalName) {
             case "S1":
             case "LBiceps":
-                return Signal1;
+                return Input.GetKey(inputForSignal1) ? 1 : 0;
             case "S2":
             case "RBiceps":
-                return Signal2;
+                return Input.GetKey(inputForSignal2) ? 1 : 0;
             case "S3":
             case "LTriceps":
-                return Signal3;
+                return Input.GetKey(inputForSignal3) ? 1 : 0;
             case "S4":
             case "RTriceps":
-                return Signal4;
+                return Input.GetKey(inputForSignal4) ? 1 : 0;
         }
         return 0;
     }
@@ -68,17 +41,27 @@ public class ArmInput : MonoBehaviour {
         {
             case Signal.S1:
             case Signal.LBiceps:
-                return Signal1;
+                return Input.GetKey(inputForSignal1) ? 1 : 0;
             case Signal.S2:
             case Signal.RBiceps:
-                return Signal2;
+                return Input.GetKey(inputForSignal2) ? 1 : 0;
             case Signal.S3:
             case Signal.LTriceps:
-                return Signal3;
+                return Input.GetKey(inputForSignal3) ? 1 : 0;
             case Signal.S4:
             case Signal.RTriceps:
-                return Signal4;
+                return Input.GetKey(inputForSignal4) ? 1 : 0;
         }
         return 0;
+    }
+
+    public static Vector3 GetAxisLeftArm()
+    {
+        return new Vector3(GetSignal(Signal.LBiceps), GetSignal(Signal.LTriceps));
+    }
+
+    public static Vector3 GetAxisRightArm()
+    {
+        return new Vector3(GetSignal(Signal.RBiceps), GetSignal(Signal.RTriceps));
     }
 }
